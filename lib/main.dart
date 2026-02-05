@@ -595,6 +595,7 @@ class _VoicemailCardState extends State<VoicemailCard> {
         border: Border.all(color: const Color(0xFFE5E7EB)),
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           InkWell(
             onTap: () => setState(() => isExpanded = !isExpanded),
@@ -625,7 +626,6 @@ class _VoicemailCardState extends State<VoicemailCard> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // --- FIX STARTED HERE ---
                         // We use a Row to separate (Name+Badge) from (Time)
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -744,7 +744,12 @@ class _VoicemailCardState extends State<VoicemailCard> {
           // ACTIONS (Using Wrap for Mobile Safety)
           if (widget.vm.suggestedActions.isNotEmpty)
             Padding(
-              padding: EdgeInsets.fromLTRB(widget.isMobile ? 20 : 0, 0, 20, 20),
+              padding: EdgeInsets.fromLTRB(
+                widget.isMobile ? 20 : 20,
+                0,
+                20,
+                20,
+              ),
               child: Wrap(
                 runAlignment: WrapAlignment.start,
                 spacing: 8,

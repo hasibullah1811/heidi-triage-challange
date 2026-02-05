@@ -1,0 +1,290 @@
+[
+  {
+    "id": "vm_d7cb41",
+    "patientName": "Michael Wong",
+    "timeReceived": "08:33 AM",
+    "fullTranscript": "Hello, it's Michael Wong. I'm running low on my Panadol. Can Dr. Chen send a script to the chemist? I'll pick it up Thursday.",
+    "summary": "Requesting repeat prescription.",
+    "intent": "prescription",
+    "urgency": "low",
+    "suggestedActions": [
+      "Approve Script",
+      "SMS 'Ready'"
+    ],
+    "confidenceScore": 0.73,
+    "detectedKeywords": [
+      "running low",
+      "script",
+      "chemist"
+    ]
+  },
+  {
+    "id": "vm_4045fa",
+    "patientName": "Unknown Caller",
+    "timeReceived": "08:53 AM",
+    "fullTranscript": "Hi, Unknown Caller here. I need to cancel my appointment for tomorrow morning. I've been called into work. Sorry!",
+    "summary": "Cancellation request for upcoming appointment.",
+    "intent": "scheduling",
+    "urgency": "low",
+    "suggestedActions": [
+      "Remove from Calendar",
+      "Send Confirmation"
+    ],
+    "confidenceScore": 0.75,
+    "detectedKeywords": [
+      "cancel",
+      "appointment",
+      "tomorrow morning"
+    ]
+  },
+  {
+    "id": "vm_5d52cc",
+    "patientName": "Sarah Jones",
+    "timeReceived": "09:38 AM",
+    "fullTranscript": "Hello, it's Sarah Jones. I'm running low on my Perindopril. Can the nurse send a script to the chemist? I'll pick it up Thursday.",
+    "summary": "Requesting repeat prescription.",
+    "intent": "prescription",
+    "urgency": "low",
+    "suggestedActions": [
+      "Approve Script",
+      "SMS 'Ready'"
+    ],
+    "confidenceScore": 0.79,
+    "detectedKeywords": [
+      "running low",
+      "script",
+      "chemist"
+    ]
+  },
+  {
+    "id": "vm_06b457",
+    "patientName": "Michael Wong",
+    "timeReceived": "09:47 AM",
+    "fullTranscript": "Hi, this is Michael Wong. My husband woke up and his chest feels really heavy... he is sweating and looks pale. Please call back immediately.",
+    "summary": "Reports symptoms of cardiac distress (chest heaviness, sweating).",
+    "intent": "emergency",
+    "urgency": "critical",
+    "suggestedActions": [
+      "CALL NOW",
+      "Alert On-Call Doctor"
+    ],
+    "confidenceScore": 0.99,
+    "detectedKeywords": [
+      "chest heavy",
+      "sweating",
+      "pale",
+      "call back immediately"
+    ]
+  },
+  {
+    "id": "vm_feda04",
+    "patientName": "David Miller",
+    "timeReceived": "10:32 AM",
+    "fullTranscript": "Hello, it's David Miller. I'm running low on my Metformin. Can Dr. Kelly send a script to the chemist? I'll pick it up Thursday.",
+    "summary": "Requesting repeat prescription.",
+    "intent": "prescription",
+    "urgency": "low",
+    "suggestedActions": [
+      "Approve Script",
+      "SMS 'Ready'"
+    ],
+    "confidenceScore": 0.84,
+    "detectedKeywords": [
+      "running low",
+      "script",
+      "chemist"
+    ]
+  },
+  {
+    "id": "vm_936d2d",
+    "patientName": "John Smith",
+    "timeReceived": "10:38 AM",
+    "fullTranscript": "Hi, this is John Smith. My husband woke up and his chest feels really heavy... he is sweating and looks pale. Please call back immediately.",
+    "summary": "Reports symptoms of cardiac distress (chest heaviness, sweating).",
+    "intent": "emergency",
+    "urgency": "critical",
+    "suggestedActions": [
+      "CALL NOW",
+      "Alert On-Call Doctor"
+    ],
+    "confidenceScore": 0.99,
+    "detectedKeywords": [
+      "chest heavy",
+      "sweating",
+      "pale",
+      "call back immediately"
+    ]
+  },
+  {
+    "id": "vm_5c307c",
+    "patientName": "David Miller",
+    "timeReceived": "11:19 AM",
+    "fullTranscript": "Hello, it's David Miller. I'm running low on my Metformin. Can the nurse send a script to the chemist? I'll pick it up Thursday.",
+    "summary": "Requesting repeat prescription.",
+    "intent": "prescription",
+    "urgency": "low",
+    "suggestedActions": [
+      "Approve Script",
+      "SMS 'Ready'"
+    ],
+    "confidenceScore": 0.89,
+    "detectedKeywords": [
+      "running low",
+      "script",
+      "chemist"
+    ]
+  },
+  {
+    "id": "vm_3c60db",
+    "patientName": "Emma Davis",
+    "timeReceived": "11:32 AM",
+    "fullTranscript": "Hi, this is Emma Davis. My husband woke up and his chest feels really heavy... he is sweating and looks pale. Please call back immediately.",
+    "summary": "Reports symptoms of cardiac distress (chest heaviness, sweating).",
+    "intent": "emergency",
+    "urgency": "critical",
+    "suggestedActions": [
+      "CALL NOW",
+      "Alert On-Call Doctor"
+    ],
+    "confidenceScore": 0.99,
+    "detectedKeywords": [
+      "chest heavy",
+      "sweating",
+      "pale",
+      "call back immediately"
+    ]
+  },
+  {
+    "id": "vm_f5b6d8",
+    "patientName": "Michael Wong",
+    "timeReceived": "11:50 AM",
+    "fullTranscript": "I need to speak to Dr. Kelly NOW. The pharmacy refused to dispense my Metformin and said I need a new authority. This is ridiculous.",
+    "summary": "Dispute regarding medication authority at pharmacy.",
+    "intent": "complaint",
+    "urgency": "high",
+    "suggestedActions": [
+      "Review File",
+      "Call Patient Calmly"
+    ],
+    "confidenceScore": 0.97,
+    "detectedKeywords": [
+      "speak to doctor NOW",
+      "pharmacy refused",
+      "authority"
+    ]
+  },
+  {
+    "id": "vm_c80107",
+    "patientName": "Emma Davis",
+    "timeReceived": "12:06 PM",
+    "fullTranscript": "Uhh, hi. I missed a call from this number? Not sure who called me. Bye.",
+    "summary": "Message received.",
+    "intent": "unknown",
+    "urgency": "low",
+    "suggestedActions": [
+      "Callback"
+    ],
+    "confidenceScore": 0.88,
+    "detectedKeywords": [
+      "missed a call",
+      "who called me"
+    ]
+  },
+  {
+    "id": "vm_b4be19",
+    "patientName": "Sarah Jones",
+    "timeReceived": "12:30 PM",
+    "fullTranscript": "Hello, it's Sarah Jones. I'm running low on my Panadol. Can Dr. Kelly send a script to the chemist? I'll pick it up Thursday.",
+    "summary": "Requesting repeat prescription.",
+    "intent": "prescription",
+    "urgency": "low",
+    "suggestedActions": [
+      "Approve Script",
+      "SMS 'Ready'"
+    ],
+    "confidenceScore": 0.85,
+    "detectedKeywords": [
+      "running low",
+      "script",
+      "chemist"
+    ]
+  },
+  {
+    "id": "vm_22226e",
+    "patientName": "John Smith",
+    "timeReceived": "01:12 PM",
+    "fullTranscript": "Hi, John Smith here. I need to cancel my appointment for tomorrow morning. I've been called into work. Sorry!",
+    "summary": "Cancellation request for upcoming appointment.",
+    "intent": "scheduling",
+    "urgency": "low",
+    "suggestedActions": [
+      "Remove from Calendar",
+      "Send Confirmation"
+    ],
+    "confidenceScore": 0.81,
+    "detectedKeywords": [
+      "cancel",
+      "appointment",
+      "tomorrow morning"
+    ]
+  },
+  {
+    "id": "vm_6cca23",
+    "patientName": "Michael Wong",
+    "timeReceived": "01:51 PM",
+    "fullTranscript": "Hi, Michael Wong here. I need to cancel my appointment for tomorrow morning. I've been called into work. Sorry!",
+    "summary": "Cancellation request for upcoming appointment.",
+    "intent": "scheduling",
+    "urgency": "low",
+    "suggestedActions": [
+      "Remove from Calendar",
+      "Send Confirmation"
+    ],
+    "confidenceScore": 0.93,
+    "detectedKeywords": [
+      "cancel",
+      "appointment",
+      "tomorrow morning"
+    ]
+  },
+  {
+    "id": "vm_c35d1e",
+    "patientName": "Michael Wong",
+    "timeReceived": "02:11 PM",
+    "fullTranscript": "Hi, this is Michael Wong. My husband woke up and his chest feels really heavy... he is sweating and looks pale. Please call back immediately.",
+    "summary": "Reports symptoms of cardiac distress (chest heaviness, sweating).",
+    "intent": "emergency",
+    "urgency": "critical",
+    "suggestedActions": [
+      "CALL NOW",
+      "Alert On-Call Doctor"
+    ],
+    "confidenceScore": 0.99,
+    "detectedKeywords": [
+      "chest heavy",
+      "sweating",
+      "pale",
+      "call back immediately"
+    ]
+  },
+  {
+    "id": "vm_d927d1",
+    "patientName": "Emma Davis",
+    "timeReceived": "02:52 PM",
+    "fullTranscript": "Hi, this is Emma Davis. My husband woke up and his chest feels really heavy... he is sweating and looks pale. Please call back immediately.",
+    "summary": "Reports symptoms of cardiac distress (chest heaviness, sweating).",
+    "intent": "emergency",
+    "urgency": "critical",
+    "suggestedActions": [
+      "CALL NOW",
+      "Alert On-Call Doctor"
+    ],
+    "confidenceScore": 0.99,
+    "detectedKeywords": [
+      "chest heavy",
+      "sweating",
+      "pale",
+      "call back immediately"
+    ]
+  }
+]

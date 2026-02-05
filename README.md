@@ -8,7 +8,7 @@ A "Forward Deployed" engineering challenge submission for **Heidi Health**. This
 <div align="center">
 
 [![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-Vercel-black?style=for-the-badge&logo=vercel)](https://heidi-triage-challange.vercel.app/)
-[![Video Walkthrough](https://img.shields.io/badge/📹_Video_Pitch-Loom-blue?style=for-the-badge&logo=loom)](YOUR_VIDEO_LINK_HERE)
+[![Video Walkthrough](https://img.shields.io/badge/📹_Video_Pitch-Loom-blue?style=for-the-badge&logo=loom)](#)
 
 </div>
 

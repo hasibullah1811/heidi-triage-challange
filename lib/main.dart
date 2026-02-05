@@ -681,7 +681,6 @@ class _VoicemailCardState extends State<VoicemailCard> {
                           ],
                         ),
 
-                        // --- FIX ENDED HERE ---
                         if (widget.isMobile) ...[
                           const SizedBox(height: 4),
                           Text(
@@ -745,13 +744,9 @@ class _VoicemailCardState extends State<VoicemailCard> {
           // ACTIONS (Using Wrap for Mobile Safety)
           if (widget.vm.suggestedActions.isNotEmpty)
             Padding(
-              padding: EdgeInsets.fromLTRB(
-                widget.isMobile ? 20 : 72,
-                0,
-                20,
-                20,
-              ),
+              padding: EdgeInsets.fromLTRB(widget.isMobile ? 20 : 0, 0, 20, 20),
               child: Wrap(
+                runAlignment: WrapAlignment.start,
                 spacing: 8,
                 runSpacing: 8,
                 children: widget.vm.suggestedActions.map((action) {

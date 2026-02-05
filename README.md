@@ -64,7 +64,7 @@ To demonstrate scalability, I avoided hardcoding the UI data. Instead, I built a
 ### 1. Clone & Install
 ```bash
 git clone [https://github.com/hasibullah1811/heidi-triage-challange.git](https://github.com/hasibullah1811/heidi-triage-challange.git)
-cd heidi-triage-prototype
+cd heidi-triage-challange
 flutter pub get
 
 ```
@@ -105,5 +105,3 @@ generate_data.py          # Python script for synthetic data generation
 ## 🛡 License
 
 This project is a submission for the Heidi Health Entry Program.
-
-```

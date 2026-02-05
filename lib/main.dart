@@ -28,7 +28,7 @@ class Voicemail {
   final Urgency urgency;
   final List<String> suggestedActions;
   final double confidenceScore;
-  final List<String> detectedKeywords; // "Evidence"
+  final List<String> detectedKeywords;
   ItemStatus status;
 
   Voicemail({
@@ -60,17 +60,15 @@ class HeidiVoicemailApp extends StatelessWidget {
       title: 'Heidi Triage',
       theme: ThemeData(
         useMaterial3: true,
-        scaffoldBackgroundColor: const Color(
-          0xFFFAFAFA,
-        ), // Ultra-light grey background
+        scaffoldBackgroundColor: const Color(0xFFFAFAFA),
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF2563EB), // "Inter Blue"
+          seedColor: const Color(0xFF2563EB),
           surface: Colors.white,
-          outline: const Color(0xFFE5E7EB), // Subtle borders
+          outline: const Color(0xFFE5E7EB),
         ),
         textTheme: GoogleFonts.interTextTheme(Theme.of(context).textTheme)
             .apply(
-              bodyColor: const Color(0xFF1F2937), // Soft black
+              bodyColor: const Color(0xFF1F2937),
               displayColor: const Color(0xFF111827),
             ),
         dividerTheme: const DividerThemeData(color: Color(0xFFF3F4F6)),
@@ -92,6 +90,10 @@ class _TriageDashboardState extends State<TriageDashboard> {
   bool isLoading = true;
   int _selectedIndex = 0;
   String _searchQuery = "";
+
+  // Helper to check screen size
+  bool isMobile(BuildContext context) =>
+      MediaQuery.of(context).size.width < 900;
 
   @override
   void initState() {
@@ -140,7 +142,6 @@ class _TriageDashboardState extends State<TriageDashboard> {
     orElse: () => Urgency.low,
   );
 
-  // LOGIC & FILTERING
   List<Voicemail> get currentList {
     List<Voicemail> filtered;
     if (_selectedIndex == 0)
@@ -172,7 +173,6 @@ class _TriageDashboardState extends State<TriageDashboard> {
     return filtered;
   }
 
-  // ACTIONS
   String _generateDraftMessage(Voicemail vm, String actionLabel) {
     String greeting = "Hi ${vm.patientName.split(' ')[0]},";
     if (actionLabel.contains("Ready"))
@@ -214,7 +214,7 @@ class _TriageDashboardState extends State<TriageDashboard> {
       content: Text(msg, style: const TextStyle(color: Colors.white)),
       backgroundColor: color,
       behavior: SnackBarBehavior.floating,
-      width: 400,
+      width: isMobile(context) ? null : 400, // Full width on mobile
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       action: SnackBarAction(
         label: "UNDO",
@@ -281,168 +281,72 @@ class _TriageDashboardState extends State<TriageDashboard> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    if (isLoading)
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator(strokeWidth: 2)),
-      );
+  // --- WIDGETS ---
 
-    return Scaffold(
-      body: Row(
+  Widget _buildSidebar() {
+    return Container(
+      width: 240,
+      color: Colors.white,
+      child: Column(
         children: [
-          // SIDEBAR
-          Container(
-            width: 240,
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              border: Border(right: BorderSide(color: Color(0xFFE5E7EB))),
-            ),
-            child: Column(
+          const SizedBox(height: 32),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Row(
               children: [
-                const SizedBox(height: 32),
-                // Logo Area
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 32,
-                        height: 32,
-                        decoration: BoxDecoration(
-                          color: Colors.blue.shade600,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: const Center(
-                          child: Text(
-                            "H",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
+                Container(
+                  width: 32,
+                  height: 32,
+                  decoration: BoxDecoration(
+                    color: Colors.blue.shade600,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      "H",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
                       ),
-                      const SizedBox(width: 12),
-                      const Text(
-                        "Heidi",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: -0.5,
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
-                const SizedBox(height: 40),
-                _navItem(
-                  0,
-                  "Inbox",
-                  Icons.inbox_outlined,
-                  count: allVoicemails
-                      .where((v) => v.status == ItemStatus.inbox)
-                      .length,
-                ),
-                _navItem(
-                  1,
-                  "Escalated",
-                  Icons.warning_amber_rounded,
-                  count: allVoicemails
-                      .where((v) => v.status == ItemStatus.escalated)
-                      .length,
-                ),
-                _navItem(
-                  2,
-                  "Completed",
-                  Icons.check_circle_outline,
-                  count: allVoicemails
-                      .where((v) => v.status == ItemStatus.completed)
-                      .length,
+                const SizedBox(width: 12),
+                const Text(
+                  "Heidi",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: -0.5,
+                  ),
                 ),
               ],
             ),
           ),
-
-          // MAIN CONTENT
-          Expanded(
-            child: Column(
-              children: [
-                // Top Bar
-                Container(
-                  height: 70,
-                  padding: const EdgeInsets.symmetric(horizontal: 32),
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    border: Border(
-                      bottom: BorderSide(color: Color(0xFFE5E7EB)),
-                    ),
-                  ),
-                  child: Row(
-                    children: [
-                      Text(
-                        _selectedIndex == 0
-                            ? "Triage Inbox"
-                            : _selectedIndex == 1
-                            ? "Escalations"
-                            : "History",
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const Spacer(),
-                      SizedBox(
-                        width: 240,
-                        child: TextField(
-                          onChanged: (val) =>
-                              setState(() => _searchQuery = val),
-                          decoration: InputDecoration(
-                            hintText: "Search...",
-                            prefixIcon: Icon(
-                              Icons.search,
-                              size: 18,
-                              color: Colors.grey.shade400,
-                            ),
-                            filled: true,
-                            fillColor: const Color(0xFFF9FAFB),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide.none,
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                              vertical: 0,
-                            ),
-                            isDense: true,
-                          ),
-                          style: const TextStyle(fontSize: 14),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                // Content Area
-                Expanded(
-                  child: currentList.isEmpty
-                      ? Center(
-                          child: Text(
-                            "No items found",
-                            style: TextStyle(color: Colors.grey.shade400),
-                          ),
-                        )
-                      : ListView.builder(
-                          padding: const EdgeInsets.all(32),
-                          itemCount: currentList.length,
-                          itemBuilder: (context, index) => VoicemailCard(
-                            vm: currentList[index],
-                            onAction: (a) =>
-                                _processAction(currentList[index], a),
-                          ),
-                        ),
-                ),
-              ],
-            ),
+          const SizedBox(height: 40),
+          _navItem(
+            0,
+            "Inbox",
+            Icons.inbox_outlined,
+            count: allVoicemails
+                .where((v) => v.status == ItemStatus.inbox)
+                .length,
+          ),
+          _navItem(
+            1,
+            "Escalated",
+            Icons.warning_amber_rounded,
+            count: allVoicemails
+                .where((v) => v.status == ItemStatus.escalated)
+                .length,
+          ),
+          _navItem(
+            2,
+            "Completed",
+            Icons.check_circle_outline,
+            count: allVoicemails
+                .where((v) => v.status == ItemStatus.completed)
+                .length,
           ),
         ],
       ),
@@ -452,14 +356,15 @@ class _TriageDashboardState extends State<TriageDashboard> {
   Widget _navItem(int index, String title, IconData icon, {int count = 0}) {
     bool isActive = _selectedIndex == index;
     return GestureDetector(
-      onTap: () => setState(() => _selectedIndex = index),
+      onTap: () {
+        setState(() => _selectedIndex = index);
+        if (isMobile(context)) Navigator.pop(context); // Close drawer on mobile
+      },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         decoration: BoxDecoration(
-          color: isActive
-              ? const Color(0xFFEFF6FF)
-              : Colors.transparent, // Very light blue
+          color: isActive ? const Color(0xFFEFF6FF) : Colors.transparent,
           borderRadius: BorderRadius.circular(8),
         ),
         child: Row(
@@ -508,13 +413,157 @@ class _TriageDashboardState extends State<TriageDashboard> {
       ),
     );
   }
+
+  @override
+  Widget build(BuildContext context) {
+    bool mobile = isMobile(context);
+
+    // THE RESPONSIVE SCAFFOLD
+    return Scaffold(
+      appBar: mobile
+          ? AppBar(
+              title: const Text(
+                "Heidi Triage",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              backgroundColor: Colors.white,
+              elevation: 0,
+              bottom: PreferredSize(
+                preferredSize: const Size.fromHeight(60),
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: TextField(
+                    onChanged: (val) => setState(() => _searchQuery = val),
+                    decoration: InputDecoration(
+                      hintText: "Search...",
+                      prefixIcon: const Icon(Icons.search),
+                      filled: true,
+                      fillColor: Colors.grey.shade100,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: BorderSide.none,
+                      ),
+                      contentPadding: EdgeInsets.zero,
+                    ),
+                  ),
+                ),
+              ),
+            )
+          : null,
+      drawer: mobile
+          ? Drawer(child: _buildSidebar())
+          : null, // Sidebar becomes Drawer on Mobile
+      body: Row(
+        children: [
+          // Sidebar (Only visible on Desktop)
+          if (!mobile)
+            Container(
+              decoration: const BoxDecoration(
+                border: Border(right: BorderSide(color: Color(0xFFE5E7EB))),
+              ),
+              child: _buildSidebar(),
+            ),
+
+          // Main Content
+          Expanded(
+            child: Column(
+              children: [
+                // Top Bar (Only visible on Desktop)
+                if (!mobile)
+                  Container(
+                    height: 70,
+                    padding: const EdgeInsets.symmetric(horizontal: 32),
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      border: Border(
+                        bottom: BorderSide(color: Color(0xFFE5E7EB)),
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Text(
+                          _selectedIndex == 0
+                              ? "Triage Inbox"
+                              : _selectedIndex == 1
+                              ? "Escalations"
+                              : "History",
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const Spacer(),
+                        SizedBox(
+                          width: 240,
+                          child: TextField(
+                            onChanged: (val) =>
+                                setState(() => _searchQuery = val),
+                            decoration: InputDecoration(
+                              hintText: "Search...",
+                              prefixIcon: Icon(
+                                Icons.search,
+                                size: 18,
+                                color: Colors.grey.shade400,
+                              ),
+                              filled: true,
+                              fillColor: const Color(0xFFF9FAFB),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide.none,
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(
+                                vertical: 0,
+                              ),
+                              isDense: true,
+                            ),
+                            style: const TextStyle(fontSize: 14),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                // List Area
+                Expanded(
+                  child: isLoading
+                      ? const Center(child: CircularProgressIndicator())
+                      : currentList.isEmpty
+                      ? Center(
+                          child: Text(
+                            "No items found",
+                            style: TextStyle(color: Colors.grey.shade400),
+                          ),
+                        )
+                      : ListView.builder(
+                          padding: EdgeInsets.all(mobile ? 16 : 32),
+                          itemCount: currentList.length,
+                          itemBuilder: (context, index) => VoicemailCard(
+                            vm: currentList[index],
+                            onAction: (a) =>
+                                _processAction(currentList[index], a),
+                            isMobile: mobile,
+                          ),
+                        ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
-// --- MINIMALIST CARD ---
 class VoicemailCard extends StatefulWidget {
   final Voicemail vm;
   final Function(String) onAction;
-  const VoicemailCard({super.key, required this.vm, required this.onAction});
+  final bool isMobile;
+  const VoicemailCard({
+    super.key,
+    required this.vm,
+    required this.onAction,
+    this.isMobile = false,
+  });
 
   @override
   State<VoicemailCard> createState() => _VoicemailCardState();
@@ -527,13 +576,12 @@ class _VoicemailCardState extends State<VoicemailCard> {
   Widget build(BuildContext context) {
     bool isCritical = widget.vm.urgency == Urgency.critical;
 
-    // Define Colors based on Urgency
     Color statusBg = isCritical
         ? const Color(0xFFFEF2F2)
-        : const Color(0xFFF0FDF4); // Red vs Green bg
+        : const Color(0xFFF0FDF4);
     Color statusText = isCritical
         ? const Color(0xFFDC2626)
-        : const Color(0xFF16A34A); // Red vs Green text
+        : const Color(0xFF16A34A);
     if (widget.vm.urgency == Urgency.medium) {
       statusBg = const Color(0xFFFFF7ED);
       statusText = const Color(0xFFEA580C);
@@ -544,7 +592,7 @@ class _VoicemailCardState extends State<VoicemailCard> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFFE5E7EB)), // Subtle border
+        border: Border.all(color: const Color(0xFFE5E7EB)),
       ),
       child: Column(
         children: [
@@ -556,7 +604,7 @@ class _VoicemailCardState extends State<VoicemailCard> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Play Icon (Minimal)
+                  // Play Icon
                   Container(
                     width: 36,
                     height: 36,
@@ -577,7 +625,11 @@ class _VoicemailCardState extends State<VoicemailCard> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
+                        // Header Row (Name + Badge)
+                        Wrap(
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          spacing: 8,
+                          runSpacing: 4,
                           children: [
                             Text(
                               widget.vm.patientName,
@@ -586,8 +638,6 @@ class _VoicemailCardState extends State<VoicemailCard> {
                                 fontSize: 15,
                               ),
                             ),
-                            const SizedBox(width: 8),
-                            // Urgency Pill
                             Container(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 8,
@@ -607,35 +657,29 @@ class _VoicemailCardState extends State<VoicemailCard> {
                                 ),
                               ),
                             ),
-                            const Spacer(),
-                            Text(
-                              widget.vm.timeReceived,
-                              style: TextStyle(
-                                color: Colors.grey.shade400,
-                                fontSize: 12,
-                              ),
-                            ),
-                            PopupMenuButton<String>(
-                              icon: Icon(
-                                Icons.more_horiz,
-                                color: Colors.grey.shade400,
-                                size: 20,
-                              ),
-                              padding: EdgeInsets.zero,
-                              onSelected: (val) => widget.onAction(val),
-                              itemBuilder: (context) => [
-                                const PopupMenuItem(
-                                  value: 'Escalate',
-                                  child: Text('Escalate to Doctor'),
+                            if (!widget.isMobile) ...[
+                              const Spacer(),
+                              Text(
+                                widget.vm.timeReceived,
+                                style: TextStyle(
+                                  color: Colors.grey.shade400,
+                                  fontSize: 12,
                                 ),
-                                const PopupMenuItem(
-                                  value: 'Spam',
-                                  child: Text('Mark as Spam'),
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ],
                         ),
+                        if (widget.isMobile) ...[
+                          const SizedBox(height: 4),
+                          Text(
+                            widget.vm.timeReceived,
+                            style: TextStyle(
+                              color: Colors.grey.shade400,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+
                         const SizedBox(height: 6),
                         Text(
                           widget.vm.summary,
@@ -646,11 +690,12 @@ class _VoicemailCardState extends State<VoicemailCard> {
                           ),
                         ),
 
-                        // KEYWORDS (Evidence)
+                        // KEYWORDS
                         if (widget.vm.detectedKeywords.isNotEmpty) ...[
                           const SizedBox(height: 10),
                           Wrap(
                             spacing: 6,
+                            runSpacing: 6,
                             children: widget.vm.detectedKeywords
                                 .map(
                                   (k) => Container(
@@ -684,50 +729,49 @@ class _VoicemailCardState extends State<VoicemailCard> {
             ),
           ),
 
-          // ACTIONS
+          // ACTIONS (Using Wrap for Mobile Safety)
           if (widget.vm.suggestedActions.isNotEmpty)
             Padding(
-              padding: const EdgeInsets.fromLTRB(
-                72,
+              padding: EdgeInsets.fromLTRB(
+                widget.isMobile ? 20 : 72,
                 0,
                 20,
                 20,
-              ), // Align with text
-              child: Row(
+              ),
+              child: Wrap(
+                spacing: 8,
+                runSpacing: 8,
                 children: widget.vm.suggestedActions.map((action) {
                   bool isAlert =
                       action.toLowerCase().contains("call") ||
                       action.toLowerCase().contains("escalate");
-                  return Padding(
-                    padding: const EdgeInsets.only(right: 8),
-                    child: OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: isAlert
-                            ? Colors.red.shade700
-                            : Colors.black87,
-                        side: BorderSide(
-                          color: isAlert
-                              ? Colors.red.shade100
-                              : Colors.grey.shade300,
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 0,
-                        ), // Slim buttons
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        backgroundColor: isAlert
-                            ? Colors.red.shade50.withOpacity(0.5)
-                            : Colors.transparent,
+                  return OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: isAlert
+                          ? Colors.red.shade700
+                          : Colors.black87,
+                      side: BorderSide(
+                        color: isAlert
+                            ? Colors.red.shade100
+                            : Colors.grey.shade300,
                       ),
-                      onPressed: () => widget.onAction(action),
-                      child: Text(
-                        action,
-                        style: const TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                        ),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 0,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      backgroundColor: isAlert
+                          ? Colors.red.shade50.withOpacity(0.5)
+                          : Colors.transparent,
+                    ),
+                    onPressed: () => widget.onAction(action),
+                    child: Text(
+                      action,
+                      style: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   );
@@ -764,6 +808,25 @@ class _VoicemailCardState extends State<VoicemailCard> {
                       color: Color(0xFF374151),
                       height: 1.6,
                     ),
+                  ),
+                  const SizedBox(height: 16),
+                  // Extra Actions for Mobile inside expansion
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton.icon(
+                        icon: const Icon(
+                          Icons.warning_amber_rounded,
+                          size: 16,
+                          color: Colors.orange,
+                        ),
+                        label: const Text(
+                          "Escalate",
+                          style: TextStyle(color: Colors.orange),
+                        ),
+                        onPressed: () => widget.onAction("Manual Escalate"),
+                      ),
+                    ],
                   ),
                 ],
               ),

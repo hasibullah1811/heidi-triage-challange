@@ -625,40 +625,51 @@ class _VoicemailCardState extends State<VoicemailCard> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Header Row (Name + Badge)
-                        Wrap(
-                          crossAxisAlignment: WrapCrossAlignment.center,
-                          spacing: 8,
-                          runSpacing: 4,
+                        // --- FIX STARTED HERE ---
+                        // We use a Row to separate (Name+Badge) from (Time)
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              widget.vm.patientName,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 15,
+                            // Left Side: Name + Badge (Wrapped together)
+                            Expanded(
+                              child: Wrap(
+                                crossAxisAlignment: WrapCrossAlignment.center,
+                                spacing: 8,
+                                runSpacing: 4,
+                                children: [
+                                  Text(
+                                    widget.vm.patientName,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 8,
+                                      vertical: 2,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: statusBg,
+                                      borderRadius: BorderRadius.circular(6),
+                                    ),
+                                    child: Text(
+                                      widget.vm.urgency.name.toUpperCase(),
+                                      style: TextStyle(
+                                        color: statusText,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 10,
+                                        letterSpacing: 0.5,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 8,
-                                vertical: 2,
-                              ),
-                              decoration: BoxDecoration(
-                                color: statusBg,
-                                borderRadius: BorderRadius.circular(6),
-                              ),
-                              child: Text(
-                                widget.vm.urgency.name.toUpperCase(),
-                                style: TextStyle(
-                                  color: statusText,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 10,
-                                  letterSpacing: 0.5,
-                                ),
-                              ),
-                            ),
+
+                            // Right Side: Time (Desktop Only)
                             if (!widget.isMobile) ...[
-                              const Spacer(),
+                              const SizedBox(width: 8),
                               Text(
                                 widget.vm.timeReceived,
                                 style: TextStyle(
@@ -669,6 +680,8 @@ class _VoicemailCardState extends State<VoicemailCard> {
                             ],
                           ],
                         ),
+
+                        // --- FIX ENDED HERE ---
                         if (widget.isMobile) ...[
                           const SizedBox(height: 4),
                           Text(
